@@ -45,6 +45,7 @@ GET user object
 Sucessful response:
 
 {
+	
 	id:10000000001,
 	
     firstName: 'Cool',
