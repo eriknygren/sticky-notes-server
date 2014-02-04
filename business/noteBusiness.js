@@ -11,13 +11,16 @@ exports.onListNotesForUserRequest = function(req, res)
     {
         if (err)
         {
-            res.send(500, 'Error getting session');
+            console.log('Error getting session');
+            console.log(err);
+            res.send(500, {});
             return;
         }
 
         if (!session)
         {
-            res.send(401, 'Unknown session');
+            console.log('Unknown session');
+            res.send(401, {});
             return;
         }
 
@@ -27,7 +30,9 @@ exports.onListNotesForUserRequest = function(req, res)
         {
             if (err)
             {
-                res.send(500, 'Error retrieving notes');
+                console.log('Error retrieving notes');
+                console.log(err);
+                res.send(500, {});
                 return;
             }
 
@@ -46,13 +51,16 @@ exports.onPersistNoteRequest = function(req, res){
     {
         if (err)
         {
-            res.send(500, 'Error getting session');
+            console.log('Error getting session');
+            console.log(err);
+            res.send(500, {});
             return;
         }
 
         if (!session)
         {
-            res.send(401, 'Unknown session');
+            console.log('Unknown session');
+            res.send(401, {});
             return;
         }
 
@@ -62,7 +70,9 @@ exports.onPersistNoteRequest = function(req, res){
         {
             if (err)
             {
-                res.send(500, 'Error saving note');
+                console.log('Error saving note');
+                console.log(err);
+                res.send(500, {});
                 return;
             }
 

@@ -13,14 +13,16 @@ exports.onGetUserDataRequest = function (req, res)
     {
         if (err)
         {
+            console.log('Error retrieving user data');
             console.log(err);
-            res.send(500, 'Error retrieving user data')
+            res.send(500, {});
             return;
         }
 
         if (!user)
         {
-            res.send(401, 'Unknown ID');
+            console.log('Unknown ID');
+            res.send(401, {});
             return;
         }
 
@@ -39,20 +41,23 @@ exports.onLoginRequest = function (req, res)
     {
         if (err)
         {
+            console.log('Error retrieving user data');
             console.log(err);
-            res.send(500, 'Error retrieving user data')
+            res.send(500, {});
             return;
         }
 
 		if (!user)
 		{
-			res.send(403, 'Invalid credentials');
+            console.log('Invalid credentials');
+            res.send(403, {});
 			return;
 		}
 
 		if (!passwordHash.verify(password, user.dataValues.password))
 		{
-			res.send(403, 'Invalid credentials');
+            console.log('Invalid credentials');
+            res.send(403, {});
 			return;
 		}
 
@@ -62,8 +67,9 @@ exports.onLoginRequest = function (req, res)
         {
             if (err)
             {
+                console.log('Error setting up user session');
                 console.log(err);
-                res.send(500, 'Error setting up user session')
+                res.send(500, {})
                 return;
             }
 
@@ -94,7 +100,7 @@ exports.onRegisterUserRequest = function(req, res)
 
     if (!inputValidationResult.valid)
     {
-        res.send(400, inputValidationResult.message);
+        res.send(400, {message: inputValidationResult.message});
         return;
     }
 
@@ -106,11 +112,13 @@ exports.onRegisterUserRequest = function(req, res)
     {
         if (err)
         {
-            res.send(500, "Error registering user");
+            console.log("Error registering user");
+            console.log(err);
+            res.send(500, {});
             return;
         }
 
-        res.send(201, 'User successfully registered');
+        res.send(201, user);
     }
 }
 
