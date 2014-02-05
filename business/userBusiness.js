@@ -1,5 +1,7 @@
 var passwordHash = require('password-hash');
+var validator = require('validator');
 
+var util = require('../util');
 var userPersistence = require('../persistence/userPersistence');
 var sessionPersistence = require('../persistence/sessionPersistence');
 
@@ -61,7 +63,7 @@ exports.onLoginRequest = function (req, res)
 			return;
 		}
 
-        sessionPersistence.createSession(user.id, sessionSavedHandler)
+        sessionPersistence.createSession(user.id, sessionSavedHandler);
 
         function sessionSavedHandler(err, session)
         {
@@ -69,7 +71,7 @@ exports.onLoginRequest = function (req, res)
             {
                 console.log('Error setting up user session');
                 console.log(err);
-                res.send(500, {})
+                res.send(500, {});
                 return;
             }
 
@@ -81,12 +83,12 @@ exports.onLoginRequest = function (req, res)
                     created: new Date()
                 },
                 user: user
-            }
+            };
 
             res.send(200, result);
-        };
+        }
 
-	};
+	}
 };
 
 exports.onRegisterUserRequest = function(req, res)
@@ -120,14 +122,14 @@ exports.onRegisterUserRequest = function(req, res)
 
         res.send(201, user);
     }
-}
+};
 
 function validateRegistrationInput(email, password, firstName, surname)
 {
     var result = {
         valid: true,
         message: ""
-    }
+    };
 
     var emailInputResult = validateEmailInput(email);
 
@@ -165,20 +167,16 @@ function validateEmailInput(email)
     {
         valid: true,
         message: ""
-    }
+    };
 
-    if (email == null || email == '')
+    if (!util.isString(email))
     {
-        result.message += 'Email supplied was blank.'
+        result.message += 'Invalid email.';
         result.valid = false;
         return result;
     }
 
-    // Regex found on stack overflow validating email according to RFC 2822
-    // Source: http://stackoverflow.com/a/1373724
-    var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-
-    if (!re.test(email))
+    if (!validator.isEmail(email))
     {
         result.message += 'Invalid email.';
         result.valid = false;
@@ -193,19 +191,20 @@ function validatePasswordInput(password)
     {
         valid: true,
         message: ""
-    }
+    };
 
-    if (typeof password !== 'string' || password == null || password == '')
+    if (!util.isString(password))
     {
         result.message += 'Invalid password.';
         result.valid = false;
         return result;
     }
 
-    if (password.length < 8)
+    if (!validator.isLength(password, 5, 25))
     {
-        result.message += 'Password needs to be at least 8 characters long.';
+        result.message += 'Password needs to be between 5 and 25 characters';
         result.valid = false;
+        return result;
     }
 
     return result;
@@ -217,10 +216,10 @@ function validateName(firstName, surname)
     {
         valid: true,
         message: ""
-    }
+    };
 
     // These are optional fields, but just making sure they are strings
-    if (typeof firstName !== 'string' || typeof surname !== 'string')
+    if (!util.isString(firstName) || !util.isString(surname))
     {
         result.message += 'Invalid name';
         result.valid = false;
