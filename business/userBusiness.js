@@ -106,9 +106,26 @@ exports.onRegisterUserRequest = function(req, res)
         return;
     }
 
-	var hashedPassword = passwordHash.generate(password, {algorithm: 'sha512'});
+    userPersistence.getUserByEmail(email, function(err, user)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {});
+            return;
+        }
 
-    userPersistence.createUser(firstName, surname, email, hashedPassword, userSavedHandler);
+        if (!util.isNullOrUndefined(user))
+        {
+            console.log('Email already registered');
+            res.send(409, {message: 'Email already registered'});
+            return;
+        }
+
+        var hashedPassword = passwordHash.generate(password, {algorithm: 'sha512'});
+
+        userPersistence.createUser(firstName, surname, email, hashedPassword, userSavedHandler);
+    });
 
     function userSavedHandler(err, user)
     {
