@@ -90,13 +90,25 @@ POST /notes/save
 
 {
 
-	body: text
+	body: text,
 
-	token: token,
+	token: token
 
 }
 
 success: 201, error: 500
+
+POST /notes/delete
+
+{
+
+    id: note id,
+
+    token: token
+
+}
+
+success: 200, error: 500
 
 MODELS
 ======

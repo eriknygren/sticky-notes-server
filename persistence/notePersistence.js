@@ -31,3 +31,29 @@ exports.createNote = function(body, userID, callback)
             return callback(null, note);
         });
 }
+
+exports.removeNoteByID = function(noteID, callback)
+{
+    var noteModel = orm.model('Note');
+
+    noteModel.find({where: { id: noteID }}).error(function(error)
+    {
+        return callback(error);
+
+    }).success(function(note)
+        {
+            if (!note)
+            {
+                return callback(null);
+            }
+
+            note.destroy().error(function(err)
+            {
+                return callback(err);
+
+            }).success(function()
+                {
+                    return callback(null);
+                })
+        });
+}

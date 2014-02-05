@@ -19,4 +19,5 @@ exports.requestHandler = function(express, app)
     // Note operations
     app.post('/notes/list', noteBusiness.onListNotesForUserRequest);
     app.post('/notes/save', noteBusiness.onPersistNoteRequest);
+    app.post('/notes/delete', noteBusiness.onDeleteNoteRequest);
 }

@@ -41,7 +41,8 @@ exports.onListNotesForUserRequest = function(req, res)
     }
 };
 
-exports.onPersistNoteRequest = function(req, res){
+exports.onPersistNoteRequest = function(req, res)
+{
 	var body = req.body.body;
 	var token = req.body.token;
 
@@ -81,3 +82,45 @@ exports.onPersistNoteRequest = function(req, res){
         }
     }
 };
+
+exports.onDeleteNoteRequest = function(req, res)
+{
+    var token = req.body.token;
+    var id = req.body.id;
+
+    sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler)
+
+    function sessionDataReturnedHandler(err, session)
+    {
+        if (err)
+        {
+            console.log('Error getting session');
+            console.log(err);
+            res.send(500, {});
+            return;
+        }
+
+        if (!session)
+        {
+            console.log('Unknown session');
+            res.send(401, {});
+            return;
+        }
+
+        notePersistence.removeNoteByID(id, noteDeletedHandler);
+
+        function noteDeletedHandler(err)
+        {
+            if (err)
+            {
+                console.log('Error deleting note');
+                console.log(err);
+                res.send(500, {});
+                return;
+            }
+
+            res.send(200, {});
+        }
+    }
+
+}
