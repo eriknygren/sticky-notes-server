@@ -15,11 +15,27 @@ exports.findNotesByAuthor = function(userID, callback)
         });
 };
 
-exports.createNote = function(body, userID, callback)
+exports.findNotesByBoardID = function(boardID, callback)
+{
+    var noteModel = orm.model('Note');
+
+    noteModel.findAll({
+        where: { board_id: boardID }
+    }).error(function(err)
+        {
+            return callback(err);
+        }).success(function(notes)
+        {
+            return callback(null, notes);
+        });
+};
+
+exports.createNote = function(boardID, body, userID, callback)
 {
     var noteModel = orm.model('Note');
 
     noteModel.build({
+        board_id: boardID,
         body: body,
         created: new Date(),
         author: userID

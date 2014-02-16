@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.0-beta1
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2013 at 11:52 AM
--- Server version: 5.5.32-0ubuntu0.12.04.1
--- PHP Version: 5.4.4-1~oneiric+1
+-- Generation Time: Feb 16, 2014 at 10:14 PM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.3.13
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -23,21 +23,46 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Note`
+-- Table structure for table `board`
 --
 
-CREATE TABLE IF NOT EXISTS `Note` (
+CREATE TABLE IF NOT EXISTS `Board` (
   `id` bigint(255) NOT NULL AUTO_INCREMENT,
-  `body` text NOT NULL,
-  `created` datetime NOT NULL,
-  `author` bigint(255) NOT NULL,
+  `owner_user_id` bigint(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Session`
+-- Table structure for table `board_user`
+--
+
+CREATE TABLE IF NOT EXISTS `Board_User` (
+  `board_id` bigint(255) NOT NULL,
+  `user_id` bigint(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `note`
+--
+
+CREATE TABLE IF NOT EXISTS `Note` (
+  `id` bigint(255) NOT NULL AUTO_INCREMENT,
+  `board_id` bigint(255) DEFAULT NULL,
+  `body` text NOT NULL,
+  `created` datetime NOT NULL,
+  `author` bigint(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `session`
 --
 
 CREATE TABLE IF NOT EXISTS `Session` (
@@ -46,12 +71,12 @@ CREATE TABLE IF NOT EXISTS `Session` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `User`
+-- Table structure for table `user`
 --
 
 CREATE TABLE IF NOT EXISTS `User` (
@@ -61,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

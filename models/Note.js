@@ -5,6 +5,7 @@ var orm = require("../orm")
 module.exports = {
     model:{
         id: {type: Seq.INTEGER, autoIncrement: true},
+        board_id: Seq.INTEGER,
         body: Seq.TEXT,
         created: Seq.DATE,
         author: Seq.INTEGER

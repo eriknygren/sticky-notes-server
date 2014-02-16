@@ -1,6 +1,6 @@
 var filesystem = require('fs');
 var models = {};
-var modelsToInit = ['Note', 'Session', 'User'];
+var modelsToInit = ['Note', 'Session', 'User', 'Board', 'Board_User'];
 var relationships = {};
 
 var singleton = function singleton(){
