@@ -16,11 +16,11 @@ exports.getBoardsForUser = function(userID, callback)
         {
             for (var i=0; i < boardUserLinks.length; i++)
             {
-                boardIDs.push(boardUserLinks[i].user_id);
+                boardIDs.push(boardUserLinks[i].board_id);
             }
 
             boardModel.findAll({
-                where: ["id IN ?", boardIDs]
+                where: {id: boardIDs}
             }).error(function(err)
                 {
                     return callback(err);
