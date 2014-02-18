@@ -58,6 +58,7 @@ Error codes: 401
 **POST /notes/list**
 
 token=token
+boardID = board id for notes to list (not passing a board id returns private notes)
 
 Token identifies current user in this case.
 
