@@ -80,6 +80,8 @@ Token identifies current user in this case.
 		boardID: boardID (null == private/unassigned note)
     }
 
+Returns saved note object
+
 success: 201, error: 500
 
 **POST /notes/delete**

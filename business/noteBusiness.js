@@ -128,8 +128,8 @@ exports.onPersistNoteRequest = function(req, res)
                 return;
             }
 
-            // Respond with the ID of the saved note
-            res.send(201, note.dataValues.id);
+            // Respond with the saved note
+            res.send(201, note);
         }
     }
 };
