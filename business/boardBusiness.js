@@ -39,8 +39,8 @@ exports.onCreateBoardRequest = function(req, res)
                 return;
             }
 
-            // Respond with the ID of the saved board
-            res.send(201, board.dataValues.id);
+            // Respond with the saved board
+            res.send(201, board);
         }
     }
 };

@@ -101,7 +101,7 @@ success: 200, error: 500
 	    token: token
     }
 
-*Sucessful response returns board id*
+*Sucessful response returns board object*
 
 **POST /boards/list**
 
