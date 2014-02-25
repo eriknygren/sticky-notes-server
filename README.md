@@ -127,6 +127,15 @@ Sucessful response:
     	
     }
 
+**POST /boards/delete**
+
+    {
+	    id: board id,
+	    token: token
+    }
+
+success: 200, error: 500
+
 MODELS
 ======
 

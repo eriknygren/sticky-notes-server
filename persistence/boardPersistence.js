@@ -76,3 +76,42 @@ exports.addUserToBoard = function(boardID, userID, callback)
             return callback(null, boardUserLink);
         });
 };
+
+exports.getBoardByID = function(boardID, callback)
+{
+    var boardModel = orm.model('Board');
+    boardModel.find({ where: {id: boardID} }).error(function (err)
+    {
+        return callback(err);
+    }).success(function (board)
+        {
+            return callback(null, board);
+        });
+};
+
+exports.removeBoardByID = function(boardID, callback)
+{
+    var boardModel = orm.model('Board');
+
+    boardModel.find({where: { id: boardID }}).error(function(error)
+    {
+        return callback(error);
+
+    }).success(function(board)
+        {
+            if (!board)
+            {
+                return callback(null);
+            }
+
+            // TODO remove orphaned link table entries
+            board.destroy().error(function(err)
+            {
+                return callback(err);
+
+            }).success(function()
+                {
+                    return callback(null);
+                })
+        });
+};
