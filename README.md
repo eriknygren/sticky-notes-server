@@ -13,6 +13,8 @@ REST
 
 **endpoint** - *http://stickyapi.alanedwardes.com/1.0* // API version
 
+If a successful response isn't returned, an error message is available in response.message
+
 **POST /user/login**
 
 username=user&password=pass
@@ -62,7 +64,8 @@ boardID = board id for notes to list (not passing a board id returns private not
 
 Token identifies current user in this case.
 
-    Sucessful response:
+Sucessful response:
+
     {
     	notes: [{
     		// Note 1
@@ -76,7 +79,8 @@ Token identifies current user in this case.
 **POST /notes/save**
 
     {
-    	body: text,
+    	title: text (nullable),
+		body: text,
     	token: token
 		boardID: boardID (null == private/unassigned note)
     }
@@ -111,7 +115,17 @@ List boards for user
 	    token: token
     }
 
-*Sucessful response returns array of boards (without notes)*
+Sucessful response:
+    
+	{
+    	boards: [{
+    		// Board 1
+    	},
+    	{
+    		// Board 2, etc...
+    	}]
+    	
+    }
 
 MODELS
 ======
@@ -128,6 +142,7 @@ MODELS
 ----------------------
     id			Int(11)
     board_id	Int(11) (null == private note (default))
+	title		Text (nullable)
     body		Text
     created		DateTime
     author		Int FK User(11)

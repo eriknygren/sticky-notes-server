@@ -14,16 +14,14 @@ exports.onCreateBoardRequest = function(req, res)
     {
         if (err)
         {
-            console.log('Error getting session');
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error getting session'});
             return;
         }
 
         if (!session)
         {
-            console.log('Unknown session');
-            res.send(401, {});
+            res.send(401, {message: 'Unknown session'});
             return;
         }
 
@@ -33,9 +31,8 @@ exports.onCreateBoardRequest = function(req, res)
         {
             if (err)
             {
-                console.log('Error saving board');
                 console.log(err);
-                res.send(500, {});
+                res.send(500, {message: 'Error saving board'});
                 return;
             }
 
@@ -55,16 +52,14 @@ exports.onListBoardsForUserRequest = function(req, res)
     {
         if (err)
         {
-            console.log('Error getting session');
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error getting session'});
             return;
         }
 
         if (!session)
         {
-            console.log('Unknown session');
-            res.send(401, {});
+            res.send(401, {message: 'Unknown session'});
             return;
         }
 
@@ -74,13 +69,12 @@ exports.onListBoardsForUserRequest = function(req, res)
         {
             if (err)
             {
-                console.log('Error retrieving boards');
                 console.log(err);
-                res.send(500, {});
+                res.send(500, {message: 'Error retrieving boards'});
                 return;
             }
 
-            res.send(200, boards);
+            res.send(200, {boards: boards});
         }
     }
 };

@@ -15,16 +15,14 @@ exports.onGetUserDataRequest = function (req, res)
     {
         if (err)
         {
-            console.log('Error retrieving user data');
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error retrieving user data'});
             return;
         }
 
         if (!user)
         {
-            console.log('Unknown ID');
-            res.send(401, {});
+            res.send(401, {message: 'Unknown ID'});
             return;
         }
 
@@ -43,23 +41,20 @@ exports.onLoginRequest = function (req, res)
     {
         if (err)
         {
-            console.log('Error retrieving user data');
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error retrieving user data'});
             return;
         }
 
 		if (!user)
 		{
-            console.log('Invalid credentials');
-            res.send(403, {});
+            res.send(403, {message: 'Invalid credentials'});
 			return;
 		}
 
 		if (!passwordHash.verify(password, user.dataValues.password))
 		{
-            console.log('Invalid credentials');
-            res.send(403, {});
+            res.send(403, {message: 'Invalid credentials'});
 			return;
 		}
 
@@ -69,9 +64,8 @@ exports.onLoginRequest = function (req, res)
         {
             if (err)
             {
-                console.log('Error setting up user session');
                 console.log(err);
-                res.send(500, {});
+                res.send(500, {message: 'Error setting up user session'});
                 return;
             }
 
@@ -117,7 +111,6 @@ exports.onRegisterUserRequest = function(req, res)
 
         if (!util.isNullOrUndefined(user))
         {
-            console.log('Email already registered');
             res.send(409, {message: 'Email already registered'});
             return;
         }
@@ -131,9 +124,8 @@ exports.onRegisterUserRequest = function(req, res)
     {
         if (err)
         {
-            console.log("Error registering user");
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error registering user'});
             return;
         }
 

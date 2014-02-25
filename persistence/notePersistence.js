@@ -30,12 +30,13 @@ exports.findNotesByBoardID = function(boardID, callback)
         });
 };
 
-exports.createNote = function(boardID, body, userID, callback)
+exports.createNote = function(boardID, title, body, userID, callback)
 {
     var noteModel = orm.model('Note');
 
     noteModel.build({
         board_id: boardID,
+        title: title,
         body: body,
         created: new Date(),
         author: userID

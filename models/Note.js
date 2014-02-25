@@ -6,6 +6,7 @@ module.exports = {
     model:{
         id: {type: Seq.INTEGER, autoIncrement: true},
         board_id: Seq.INTEGER,
+        title: seq.TEXT,
         body: Seq.TEXT,
         created: Seq.DATE,
         author: Seq.INTEGER

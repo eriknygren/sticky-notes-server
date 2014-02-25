@@ -20,16 +20,14 @@ exports.onListNotesRequest = function(req, res)
     {
         if (err)
         {
-            console.log('Error getting session');
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error getting session'});
             return;
         }
 
         if (!session)
         {
-            console.log('Unknown session');
-            res.send(401, {});
+            res.send(401, {message: 'Unknown session'});
             return;
         }
 
@@ -47,13 +45,12 @@ exports.onListNotesRequest = function(req, res)
         {
             if (err)
             {
-                console.log('Error retrieving notes');
                 console.log(err);
-                res.send(500, {});
+                res.send(500, {message: 'Error retrieving notes'});
                 return;
             }
 
-            res.send(200, notes);
+            res.send(200, { notes: notes});
         }
     }
 };
@@ -61,6 +58,7 @@ exports.onListNotesRequest = function(req, res)
 exports.onPersistNoteRequest = function(req, res)
 {
 	var body = req.body.body;
+    var title = req.body.title;
 	var token = req.body.token;
     var boardID = req.body.boardID;
 
@@ -75,28 +73,25 @@ exports.onPersistNoteRequest = function(req, res)
     {
         if (err)
         {
-            console.log('Error getting session');
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error getting session'});
             return;
         }
 
         if (!session)
         {
-            console.log('Unknown session');
-            res.send(401, {});
+            res.send(401, {message: 'Unknown session'});
             return;
         }
 
-        notePersistence.createNote(boardID, body, session.user, noteSavedHandler);
+        notePersistence.createNote(boardID, title, body, session.user, noteSavedHandler);
 
         function noteSavedHandler(err, note)
         {
             if (err)
             {
-                console.log('Error saving note');
                 console.log(err);
-                res.send(500, {});
+                res.send(500, {message: 'Error saving note'});
                 return;
             }
 
@@ -117,16 +112,14 @@ exports.onDeleteNoteRequest = function(req, res)
     {
         if (err)
         {
-            console.log('Error getting session');
             console.log(err);
-            res.send(500, {});
+            res.send(500, {message: 'Error getting session'});
             return;
         }
 
         if (!session)
         {
-            console.log('Unknown session');
-            res.send(401, {});
+            res.send(401, {message: 'Unknown session'});
             return;
         }
 
@@ -136,9 +129,8 @@ exports.onDeleteNoteRequest = function(req, res)
         {
             if (err)
             {
-                console.log('Error deleting note');
                 console.log(err);
-                res.send(500, {});
+                res.send(500, {message: 'Error deleting note'});
                 return;
             }
 
