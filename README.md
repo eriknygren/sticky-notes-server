@@ -98,6 +98,17 @@ success: 201, error: 500
 
 success: 200, error: 500
 
+**POST /notes/edit**
+
+    {
+	    id: note id,
+		title: note title,
+		body: note body,
+	    token: token
+    }
+
+success: 200, error: 500
+
 **POST /boards/save**
 
 	{

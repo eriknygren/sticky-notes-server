@@ -74,3 +74,29 @@ exports.removeNoteByID = function(noteID, callback)
                 })
         });
 }
+
+exports.updateNoteById = function(noteID, authorID, title, body, callback)
+{
+    var noteModel = orm.model('Note');
+
+    var parameters =
+    {
+        title: title,
+        body: body
+    }
+
+    var criteria =
+    {
+        id: noteID,
+        author: authorID
+    }
+
+    noteModel.update(parameters, criteria).error(function(error)
+    {
+        return callback(error);
+
+    }).success(function()
+        {
+            return callback(null);
+        });
+};

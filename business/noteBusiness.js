@@ -138,3 +138,43 @@ exports.onDeleteNoteRequest = function(req, res)
         }
     }
 }
+
+exports.onEditNoteRequest = function(req, res)
+{
+    var body = req.body.body;
+    var title = req.body.title;
+    var token = req.body.token;
+    var id = req.body.id;
+
+    sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler);
+
+    function sessionDataReturnedHandler(err, session)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {message: 'Error getting session'});
+            return;
+        }
+
+        if (!session)
+        {
+            res.send(401, {message: 'Unknown session'});
+            return;
+        }
+
+        notePersistence.updateNoteById(id, session.user, title, body, noteEditedHandler);
+
+        function noteEditedHandler(err)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.send(500, {message: 'Error editing note'});
+                return;
+            }
+
+            res.send(200, {});
+        }
+    }
+};
