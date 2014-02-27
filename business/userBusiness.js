@@ -133,6 +133,54 @@ exports.onRegisterUserRequest = function(req, res)
     }
 };
 
+exports.onEditUserDetailsRequest = function(req, res)
+{
+    var firstName = req.body.firstName;
+    var surname = req.body.surname;
+    var email = req.body.email;
+    var token = req.body.token;
+
+    var inputValidationResult = validateEditUserDetailsInput(email, firstName, surname);
+
+    if (!inputValidationResult.valid)
+    {
+        res.send(400, {message: inputValidationResult.message});
+        return;
+    }
+
+    sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler)
+
+    function sessionDataReturnedHandler(err, session)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {message: 'Error getting session'});
+            return;
+        }
+
+        if (!session)
+        {
+            res.send(401, {message: 'Unknown session'});
+            return;
+        }
+
+        userPersistence.updateUserDetailsByID(session.user, firstName, surname, email, function(err)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.send(500, {message: 'Error updating user'});
+                return;
+            }
+
+            res.send(200, {});
+        });
+    }
+
+
+};
+
 function validateRegistrationInput(email, password, firstName, surname)
 {
     var result = {
@@ -155,6 +203,34 @@ function validateRegistrationInput(email, password, firstName, surname)
     {
         result.valid = false;
         result.message = passwordInputResult.message;
+        return result;
+    }
+
+    var nameInputResult = validateName(firstName, surname);
+
+    if (!nameInputResult.valid)
+    {
+        result.valid = false;
+        result.message = nameInputResult.message;
+        return result;
+    }
+
+    return result;
+}
+
+function validateEditUserDetailsInput(email, firstName, surname)
+{
+    var result = {
+        valid: true,
+        message: ""
+    };
+
+    var emailInputResult = validateEmailInput(email);
+
+    if (!emailInputResult.valid)
+    {
+        result.valid = false;
+        result.message = emailInputResult.message;
         return result;
     }
 

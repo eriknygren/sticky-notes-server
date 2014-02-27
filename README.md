@@ -57,6 +57,12 @@ Error codes: 401
 
 **All other API methods require a token to be POSTed**
 
+**POST /user/editDetails**
+
+token, firstName, surname, email
+
+success: 200, error: 500, invalid: 401, 400
+
 **POST /notes/list**
 
 token=token
