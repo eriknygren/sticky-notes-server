@@ -13,7 +13,7 @@ exports.requestHandler = function(express, app)
     });
 
     // User operations
-    app.get('/user/:id', userBusiness.onGetUserDataRequest);
+    app.post('/user/getUser', userBusiness.onGetUserDataRequest);
     app.post('/user/register', userBusiness.onRegisterUserRequest);
     app.post('/user/login', userBusiness.onLoginRequest);
     app.post('/user/editDetails', userBusiness.onEditUserDetailsRequest);

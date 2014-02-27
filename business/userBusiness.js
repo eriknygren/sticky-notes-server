@@ -7,26 +7,45 @@ var sessionPersistence = require('../persistence/sessionPersistence');
 
 exports.onGetUserDataRequest = function (req, res)
 {
-	var id = req.params.id;
+    var id = req.body.id;
+    var token = req.body.token;
 
-    userPersistence.getUserByID(id, userDataReturnedHandler);
+    sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler)
 
-    function userDataReturnedHandler(err, user)
+    function sessionDataReturnedHandler(err, session)
     {
         if (err)
         {
             console.log(err);
-            res.send(500, {message: 'Error retrieving user data'});
+            res.send(500, {message: 'Error getting session'});
             return;
         }
 
-        if (!user)
+        if (!session)
         {
-            res.send(401, {message: 'Unknown ID'});
+            res.send(401, {message: 'Unknown session'});
             return;
         }
 
-        res.send(200, user);
+        userPersistence.getUserByID(id, userDataReturnedHandler);
+
+        function userDataReturnedHandler(err, user)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.send(500, {message: 'Error retrieving user data'});
+                return;
+            }
+
+            if (!user)
+            {
+                res.send(401, {message: 'Unknown ID'});
+                return;
+            }
+
+            res.send(200, user);
+        }
     }
 };
 

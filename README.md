@@ -38,9 +38,27 @@ error: 500
 
 invalid: 400
 
-**GET user object**
+----------------------------------------------------
 
-**/user/get/:id**
+**All other API methods require a token to be POSTed**
+
+The token identifies the current user
+
+**POST /user/editDetails**
+
+*Edit User details*
+
+token, firstName, surname, email
+
+success: 200, error: 500, invalid: 401, 400
+
+**POST /user/getUser**
+
+*Get User by id*
+
+token, id
+
+success: 200, error: 500, invalid: 401, 400
 
 Sucessful response:
 
@@ -51,24 +69,11 @@ Sucessful response:
 	    email: 'test@testmail.com'
     }
 
-Error codes: 401
-
-----------------------------------------------------
-
-**All other API methods require a token to be POSTed**
-
-**POST /user/editDetails**
-
-token, firstName, surname, email
-
-success: 200, error: 500, invalid: 401, 400
 
 **POST /notes/list**
 
 token=token
 boardID = board id for notes to list (not passing a board id returns private notes)
-
-Token identifies current user in this case.
 
 Sucessful response:
 
