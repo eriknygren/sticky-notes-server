@@ -5,7 +5,7 @@ exports.findNotesByAuthor = function(userID, callback)
     var noteModel = orm.model('Note');
 
     noteModel.findAll({
-        where: { author: userID }
+        where: { author: userID, board_id: null}
     }).error(function(err)
         {
             return callback(err);
