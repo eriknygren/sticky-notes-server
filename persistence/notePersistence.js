@@ -49,11 +49,11 @@ exports.createNote = function(boardID, title, body, userID, callback)
         });
 }
 
-exports.removeNoteByID = function(noteID, callback)
+exports.removeNoteByID = function(noteID, authorID, callback)
 {
     var noteModel = orm.model('Note');
 
-    noteModel.find({where: { id: noteID }}).error(function(error)
+    noteModel.find({where: { id: noteID, author: authorID }}).error(function(error)
     {
         return callback(error);
 

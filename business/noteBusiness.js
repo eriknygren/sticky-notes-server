@@ -123,7 +123,7 @@ exports.onDeleteNoteRequest = function(req, res)
             return;
         }
 
-        notePersistence.removeNoteByID(id, noteDeletedHandler);
+        notePersistence.removeNoteByID(id, session.user, noteDeletedHandler);
 
         function noteDeletedHandler(err)
         {
