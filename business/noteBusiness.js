@@ -2,6 +2,7 @@ var sessionPersistence = require('../persistence/sessionPersistence');
 var notePersistence = require('../persistence/notePersistence');
 
 var util = require('../util');
+var validator = require('validator');
 
 exports.onListNotesRequest = function(req, res)
 {
@@ -10,6 +11,11 @@ exports.onListNotesRequest = function(req, res)
     var boardID = req.body.boardID;
 
     if (util.isNullOrUndefined(boardID))
+    {
+        boardID = null;
+    }
+
+    if (!validator.isInt(boardID))
     {
         boardID = null;
     }
