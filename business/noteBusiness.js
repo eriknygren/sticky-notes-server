@@ -73,6 +73,11 @@ exports.onPersistNoteRequest = function(req, res)
         boardID = null;
     }
 
+    if (!validator.isInt(boardID))
+    {
+        boardID = null;
+    }
+
     sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler)
 
     function sessionDataReturnedHandler(err, session)
