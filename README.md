@@ -17,7 +17,9 @@ If a successful response isn't returned, an error message is available in respon
 
 **POST /user/login**
 
-username=user&password=pass
+
+    username: user,
+	password: pass
 
 Sucessful response:
 
@@ -30,7 +32,11 @@ Error codes: 403
 
 **POST /user/register**
 
-firstName, surname, password, email
+
+    firstName: first name, 
+	surname: surname, 
+	password: password,
+	email: email
 
 success: 201
 
@@ -48,7 +54,11 @@ The token identifies the current user
 
 *Edit User details*
 
-token, firstName, surname, email
+
+    token: session token,
+	firstName: first name, 
+	surname: surname, 
+	email: email
 
 success: 200, error: 500, invalid: 401, 400
 
@@ -56,18 +66,12 @@ success: 200, error: 500, invalid: 401, 400
 
 *Get User by id*
 
-token, id
+    token: session token, 
+	id: user id
 
 success: 200, error: 500, invalid: 401, 400
 
-Sucessful response:
-
-    {
-	    id:10000000001,
-	    firstName: 'Cool',
-	    surname: 'McRomance',
-	    email: 'test@testmail.com'
-    }
+Sucessful response returns a User object
 
 
 **POST /notes/list**
