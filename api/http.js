@@ -28,5 +28,5 @@ exports.requestHandler = function(express, app)
     app.post('/boards/save', boardBusiness.onCreateBoardRequest);
     app.post('/boards/list', boardBusiness.onListBoardsForUserRequest);
     app.post('/boards/delete', boardBusiness.onDeleteBoardRequest);
-
+    app.post('/board/addUser', boardBusiness.onAddUserToBoardRequest);
 }

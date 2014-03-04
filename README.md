@@ -44,6 +44,7 @@ error: 500
 
 invalid: 400
 
+
 ----------------------------------------------------
 
 **All other API methods require a token to be POSTed**
@@ -161,6 +162,19 @@ Sucessful response:
     }
 
 success: 200, error: 500
+
+**POST /board/addUser**
+
+
+    email: email of user to add (must be registered), 
+	boardID: board id, 
+	token: token
+
+success: 201 + Board_User link table entry
+
+error: 500
+
+invalid: 400
 
 MODELS
 ======
