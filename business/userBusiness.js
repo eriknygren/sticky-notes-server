@@ -254,7 +254,9 @@ exports.onEditUserPasswordRequest = function(req, res)
             return;
         }
 
-        userPersistence.updateUserPasswordByID(user.id, password, passwordChangedHandler)
+        var hashedPassword = passwordHash.generate(password, {algorithm: 'sha512'});
+
+        userPersistence.updateUserPasswordByID(user.id, hashedPassword, passwordChangedHandler)
 
     }
 
