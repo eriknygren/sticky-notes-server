@@ -67,3 +67,27 @@ exports.updateUserDetailsByID = function(userID, firstName, surname, email, call
             return callback(null);
         });
 };
+
+exports.updateUserPasswordByID = function(userID, password, callback)
+{
+    var userModel = orm.model('User');
+
+    var parameters =
+    {
+        password: password
+    }
+
+    var criteria =
+    {
+        id: userID
+    }
+
+    userModel.update(parameters, criteria).error(function(error)
+    {
+        return callback(error);
+
+    }).success(function()
+        {
+            return callback(null);
+        });
+};

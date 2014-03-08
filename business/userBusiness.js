@@ -196,9 +196,80 @@ exports.onEditUserDetailsRequest = function(req, res)
             res.send(200, {});
         });
     }
-
-
 };
+
+exports.onEditUserPasswordRequest = function(req, res)
+{
+    var oldPassword = req.body.oldPassword;
+    var password = req.body.password;
+    var password2 = req.body.password2;
+    var token = req.cookies.token;
+
+    if (password !== password2)
+    {
+        res.send(400, {message: 'New passwords do not match'});
+        return;
+    }
+
+    var passwordInputResult = validatePasswordInput(password);
+
+    if (!passwordInputResult.valid)
+    {
+        res.send(400, {message: passwordInputResult.message});
+        return;
+    }
+
+    sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler)
+
+    function sessionDataReturnedHandler(err, session)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {message: 'Error getting session'});
+            return;
+        }
+
+        if (!session)
+        {
+            res.send(401, {message: 'Unknown session'});
+            return;
+        }
+
+        userPersistence.getUserByID(session.user, userReturnedHandler)
+    }
+
+    function userReturnedHandler(err, user)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {message: 'Error getting user'});
+            return;
+        }
+
+        if (!passwordHash.verify(oldPassword, user.password))
+        {
+            res.send(403, {message: 'Old password invalid'});
+            return;
+        }
+
+        userPersistence.updateUserPasswordByID(user.id, password, passwordChangedHandler)
+
+    }
+
+    function passwordChangedHandler(err)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {message: 'Error changing password'});
+            return;
+        }
+
+        res.send(200, {});
+    }
+}
 
 function validateRegistrationInput(email, password, firstName, surname)
 {

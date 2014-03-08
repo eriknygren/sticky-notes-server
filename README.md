@@ -63,6 +63,18 @@ The token identifies the current user
 
 success: 200, error: 500, invalid: 401, 400
 
+**POST /user/editPassword**
+
+*Edit User password*
+
+
+    token: session token,
+	password: new password, 
+	password2: confirm new password, 
+	oldPassword: old password
+
+success: 200, error: 500, invalid: 401, 400
+
 **POST /user/getUser**
 
 *Get User by id*

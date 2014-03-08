@@ -17,6 +17,7 @@ exports.requestHandler = function(express, app)
     app.post('/user/register', userBusiness.onRegisterUserRequest);
     app.post('/user/login', userBusiness.onLoginRequest);
     app.post('/user/editDetails', userBusiness.onEditUserDetailsRequest);
+    app.post('/user/editPassword', userBusiness.onEditUserPasswordRequest);
 
     // Note operations
     app.post('/notes/list', noteBusiness.onListNotesRequest);
