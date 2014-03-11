@@ -208,7 +208,7 @@ exports.onEditUserPasswordRequest = function(req, res)
     var oldPassword = req.body.oldPassword;
     var password = req.body.password;
     var password2 = req.body.password2;
-    var token = req.cookies.token;
+    var token = req.body.token;
 
     if (password !== password2)
     {
