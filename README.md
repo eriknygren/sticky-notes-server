@@ -80,7 +80,7 @@ success: 200, error: 500, invalid: 401, 400
 *Get User by id*
 
     token: session token, 
-	id: user id
+	id: user id (null == get your own user object)
 
 success: 200, error: 500, invalid: 401, 400
 

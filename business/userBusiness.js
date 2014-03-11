@@ -27,6 +27,11 @@ exports.onGetUserDataRequest = function (req, res)
             return;
         }
 
+        if (!id)
+        {
+            id = session.user;
+        }
+
         userPersistence.getUserByID(id, userDataReturnedHandler);
 
         function userDataReturnedHandler(err, user)
