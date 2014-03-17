@@ -104,14 +104,30 @@ exports.removeBoardByID = function(boardID, callback)
                 return callback(null);
             }
 
-            // TODO remove orphaned link table entries
             board.destroy().error(function(err)
             {
                 return callback(err);
 
             }).success(function()
                 {
+                    removeBoardLinkTableEntries(boardID);
                     return callback(null);
                 })
         });
+};
+
+function removeBoardLinkTableEntries(boardID)
+{
+    var boardUserModel = orm.model('Board_User');
+
+    boardUserModel.destroy({ board_id: boardID })
+        .error(function(err)
+        {
+            console.log(err);
+
+        }).success(function(affectedRows)
+            {
+                console.log('Deleted ' + affectedRows + ' rows.');
+
+            });
 };
