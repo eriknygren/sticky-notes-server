@@ -9,7 +9,13 @@ exports.onCreateBoardRequest = function(req, res)
     var token = req.body.token;
     var name = req.body.name;
 
-    //TODO validate name
+    var boardNameValidationResult = validateBoardName(name);
+
+    if (!boardNameValidationResult.valid)
+    {
+        res.send(400, {message: boardNameValidationResult.message});
+        return;
+    }
 
     sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler);
 
@@ -225,3 +231,28 @@ exports.onAddUserToBoardRequest = function(req, res)
         res.send(201, boardUserLink);
     }
 };
+
+function validateBoardName(boardName)
+{
+    var result =
+    {
+        valid: true,
+        message: ""
+    };
+
+    if (!util.isString(boardName))
+    {
+        result.message += 'Invalid board name.';
+        result.valid = false;
+        return result;
+    }
+
+    if (!validator.isLength(boardName, 5, 25))
+    {
+        result.message += 'Board name needs to be between 3 and 25 characters';
+        result.valid = false;
+        return result;
+    }
+
+    return result;
+}
