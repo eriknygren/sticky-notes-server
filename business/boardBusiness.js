@@ -266,8 +266,26 @@ exports.onAddUserToBoardRequest = function(req, res)
             return;
         }
 
-        //TODO make sure user isn't already invited to board
-        boardPersistence.addUserToBoard(boardID, user.id, userAddedToBoardHandler);
+        // Make sure user isn't already invited to board
+        boardPersistence.getBoardUserLink(boardID, user.id, function(err, boardUserLink)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.send(500, {message: 'Error checking board user link'});
+                return;
+            }
+
+            if (boardUserLink)
+            {
+                res.send(400, {message: 'User is already added to this board'});
+                return;
+            }
+
+            boardPersistence.addUserToBoard(boardID, user.id, userAddedToBoardHandler);
+            
+        });
+
     }
 
     function userAddedToBoardHandler(err, boardUserLink)
@@ -298,7 +316,7 @@ function validateBoardName(boardName)
         return result;
     }
 
-    if (!validator.isLength(boardName, 5, 25))
+    if (!validator.isLength(boardName, 3, 25))
     {
         result.message += 'Board name needs to be between 3 and 25 characters';
         result.valid = false;

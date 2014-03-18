@@ -54,7 +54,7 @@ exports.getUsersForBoard = function(boardID, callback)
                     return callback(null, users);
                 });
         });
-}
+};
 
 exports.createUser = function(firstName, surname, email, hashedPassword, callback)
 {

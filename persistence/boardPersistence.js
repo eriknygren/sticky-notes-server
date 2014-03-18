@@ -89,6 +89,18 @@ exports.getBoardByID = function(boardID, callback)
         });
 };
 
+exports.getBoardUserLink = function(boardID, userID, callback)
+{
+    var boardUserModel = orm.model('Board_User');
+    boardUserModel.find({ where: {board_id: boardID, user_id: userID} }).error(function (err)
+    {
+        return callback(err);
+    }).success(function (boardUserLink)
+        {
+            return callback(null, boardUserLink);
+        });
+};
+
 exports.removeBoardByID = function(boardID, callback)
 {
     var boardModel = orm.model('Board');
