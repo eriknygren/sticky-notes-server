@@ -24,6 +24,38 @@ exports.getUserByEmail = function(email, callback)
         });
 };
 
+exports.getUsersForBoard = function(boardID, callback)
+{
+    var boardUserModel = orm.model('Board_User');
+    var userModel = orm.model('User');
+    var userIDs = [];
+
+    boardUserModel.findAll({
+        where: { board_id: boardID }
+    }).error(function(err)
+        {
+            return callback(err);
+
+        }).success(function(boardUserLinks)
+        {
+            for (var i=0; i < boardUserLinks.length; i++)
+            {
+                userIDs.push(boardUserLinks[i].user_id);
+            }
+
+            userModel.findAll({
+                where: {id: userIDs}
+            }).error(function(err)
+                {
+                    return callback(err);
+
+                }).success(function(users)
+                {
+                    return callback(null, users);
+                });
+        });
+}
+
 exports.createUser = function(firstName, surname, email, hashedPassword, callback)
 {
     var userModel = orm.model('User');

@@ -145,6 +145,56 @@ exports.onDeleteBoardRequest = function(req, res)
     }
 };
 
+exports.onGetUsersForBoardRequest = function (req, res)
+{
+    var id = req.body.id;
+    var token = req.body.token;
+
+    if (!validator.isInt(id))
+    {
+        res.send(401, {message: 'Invalid board ID'});
+        return;
+    }
+
+    sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler)
+
+    function sessionDataReturnedHandler(err, session)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {message: 'Error getting session'});
+            return;
+        }
+
+        if (!session)
+        {
+            res.send(401, {message: 'Unknown session'});
+            return;
+        }
+
+        userPersistence.getUsersForBoard(id, userDataReturnedHandler)
+
+        function userDataReturnedHandler(err, users)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.send(500, {message: 'Error retrieving user data'});
+                return;
+            }
+
+            if (!users)
+            {
+                res.send(401, {message: 'Unknown ID'});
+                return;
+            }
+
+            res.send(200, {users: users});
+        }
+    }
+};
+
 exports.onAddUserToBoardRequest = function(req, res)
 {
     var token = req.body.token;
@@ -216,6 +266,7 @@ exports.onAddUserToBoardRequest = function(req, res)
             return;
         }
 
+        //TODO make sure user isn't already invited to board
         boardPersistence.addUserToBoard(boardID, user.id, userAddedToBoardHandler);
     }
 

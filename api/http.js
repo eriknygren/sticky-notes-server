@@ -30,4 +30,5 @@ exports.requestHandler = function(express, app)
     app.post('/boards/list', boardBusiness.onListBoardsForUserRequest);
     app.post('/boards/delete', boardBusiness.onDeleteBoardRequest);
     app.post('/board/addUser', boardBusiness.onAddUserToBoardRequest);
+    app.post('/board/getUsers', boardBusiness.onGetUsersForBoardRequest);
 }

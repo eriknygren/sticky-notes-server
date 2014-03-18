@@ -188,6 +188,25 @@ error: 500
 
 invalid: 400
 
+**POST /board/getUsers**
+
+*Retrieves all users for a board*
+
+    id: board ID
+	token: token
+
+Successful response:
+    
+	{
+    	users: [{
+    		// User 1
+    	},
+    	{
+    		// User 2, etc...
+    	}]
+    	
+    }
+
 MODELS
 ======
 
