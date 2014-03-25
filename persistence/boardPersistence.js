@@ -128,6 +128,32 @@ exports.removeBoardByID = function(boardID, callback)
         });
 };
 
+exports.removeBoardUserLink = function(boardID, userID, callback)
+{
+    var boardUserModel = orm.model('Board_User');
+
+    boardUserModel.find({where: { board_id: boardID, user_id: userID }}).error(function(error)
+    {
+        return callback(error);
+
+    }).success(function(boardUserLink)
+        {
+            if (!boardUserLink)
+            {
+                return callback(null);
+            }
+
+            boardUserLink.destroy().error(function(err)
+            {
+                return callback(err);
+
+            }).success(function()
+                {
+                    return callback(null);
+                })
+        });
+};
+
 function removeBoardLinkTableEntries(boardID)
 {
     var boardUserModel = orm.model('Board_User');

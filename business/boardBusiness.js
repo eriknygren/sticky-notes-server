@@ -145,6 +145,63 @@ exports.onDeleteBoardRequest = function(req, res)
     }
 };
 
+exports.onLeaveBoardRequest = function(req, res)
+{
+    var token = req.body.token;
+    var id = req.body.id;
+
+    sessionPersistence.getSessionByToken(token, sessionDataReturnedHandler)
+
+    function sessionDataReturnedHandler(err, session)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.send(500, {message: 'Error getting session'});
+            return;
+        }
+
+        if (!session)
+        {
+            res.send(401, {message: 'Unknown session'});
+            return;
+        }
+
+        boardPersistence.getBoardByID(id, boardReturnedHandler);
+
+
+        function boardReturnedHandler(err, board)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.send(500, {message: 'Error getting board'});
+                return;
+            }
+
+            if (session.user === board.owner_user_id)
+            {
+                res.send(403, {message: 'Cannot leave a board you own, only delete it'});
+                return;
+            }
+
+            boardPersistence.removeBoardUserLink(board.id, session.user, boardLinkDeletedHandler)
+        }
+
+        function boardLinkDeletedHandler(err)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.send(500, {message: 'Error leaving board'});
+                return;
+            }
+
+            res.send(200, {});
+        }
+    }
+};
+
 exports.onGetUsersForBoardRequest = function (req, res)
 {
     var id = req.body.id;
