@@ -61,7 +61,7 @@ exports.createUser = function(firstName, surname, email, hashedPassword, callbac
     var userModel = orm.model('User');
 
     userModel.build({
-        firstName: firstName,
+        first_name: firstName,
         surname: surname,
         email: email,
         password: hashedPassword})
@@ -80,15 +80,15 @@ exports.updateUserDetailsByID = function(userID, firstName, surname, email, call
 
     var parameters =
     {
-        firstName: firstName,
+        first_name: firstName,
         surname: surname,
         email: email
-    }
+    };
 
     var criteria =
     {
         id: userID
-    }
+    };
 
     userModel.update(parameters, criteria).error(function(error)
     {
@@ -107,12 +107,12 @@ exports.updateUserPasswordByID = function(userID, password, callback)
     var parameters =
     {
         password: password
-    }
+    };
 
     var criteria =
     {
         id: userID
-    }
+    };
 
     userModel.update(parameters, criteria).error(function(error)
     {

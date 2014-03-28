@@ -5,7 +5,7 @@ var orm = require("../orm")
 module.exports = {
     model:{
         id: {type: Seq.INTEGER, autoIncrement: true},
-        firstName: Seq.STRING,
+        first_name: Seq.STRING,
         surname: Seq.STRING,
         email: Seq.STRING,
         password: Seq.STRING

@@ -224,7 +224,7 @@ MODELS
  User
 ----------------------
     id			Int(11)
-    firstName	Text(255)
+    first_name	Text(255)
     surname		Text(255)
     email		Text(255)
     password	Text(255)

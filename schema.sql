@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `Session` (
 
 CREATE TABLE IF NOT EXISTS `User` (
   `id` bigint(255) NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
   `surname` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
